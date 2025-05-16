@@ -18,6 +18,7 @@ internal class Program
         var config = new ConfigurationBuilder()
          .SetBasePath(AppContext.BaseDirectory)
          .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+         .AddJsonFile("appsettings.development.json", optional: true, reloadOnChange: true)
          .Build();
 
         // Define the transport for the client. This is where the MCP server will be running.
@@ -25,7 +26,7 @@ internal class Program
         {
             Name = "language-tools",
             Command = "dotnet",
-            Arguments = ["run", "--project", "../../../../McpServer/LanguageAgentTools", "--no-build"]
+            Arguments = ["run", "--project", "../../../../McpServer/Tools/LanguageAgentTools", config["Tools"]]
         });
 
         // Configure your Azure OpenAI endpoint and deployment name here.
@@ -43,9 +44,10 @@ internal class Program
         // Print the list of tools available from the server.
         IList<McpClientTool> tools = await client.ListToolsAsync();
 
-        Console.WriteLine("Welcome to the Language Agent Tools client!");
+        Console.WriteLine("Welcome to the Language Agent MCP client!");
         Console.Write("These are the tools connected to the client: ");
-        Console.WriteLine();
+        Console.WriteLine("\n");
+
 
         foreach (var tool in tools)
         {
