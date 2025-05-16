@@ -25,8 +25,8 @@
 
 #### Updating MCP server configurations
 
-1. Nativate to the `LanguageTools` solution under `src\dotnet\mcp` folders
-1. Open the `appSettings.json` under the `LanguageTools` project.
+1. Nativate to the `src\dotnet\mcp\LanguageTools` folders
+1. Open the `appSettings.json`
 1. Update the required settings
 
 ##### Configuration guide
@@ -46,8 +46,8 @@
 To test using the provided MCP client, follow these steps:
 
 1. Open the `src/dotnet/mcp/LanguageTools.sln` in `Visual Studio`.
-1. Natigate to the`McpClient` project in the solution and open the `appSettings.json` file.
-1. Update the required settings as shown is below.
+1. Navigate to the `McpClient` project in the solution and open the `appSettings.json` file.
+1. Update the required settings as shown below.
 1. Build the project
 1. Run the project from Visual Studio
 1. A terminal will be launched. Test the tools for PII redaction and Language Translation using natural language.
