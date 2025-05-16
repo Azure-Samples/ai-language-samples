@@ -14,8 +14,8 @@
 1. .NET 8 SDK installed on your system.  
 2. Visual Studio or any other IDE supporting .NET development.
 3. Azure AI multi-service resource or separate Language and Translation resources (depending one your use case)
-4. (Optional) For using the provided MCP client, you will need an Azure Open AI resource with key based auth enabled and deploy a model preferably gpt-4o. 
-5. If VS Code copilot Mcpclient is used for testing, you can skip step 4 and use Copilot models.
+4. (Optional) For using the provided MCP client, you will need an Azure Open AI resource with key based auth enabled and an open AI model already deployed (preferably gpt-4o).
+5. If using the VS Code copilot for testing, you can skip step 4 and use Copilot models.
 
 ### Building the Mcp Server
 
@@ -87,15 +87,24 @@ To test using the provided MCP client, follow these steps:
 ### PII redaction text
 
 User: Can you help redact PII information
+
 Agent: Yes, I can help redact Personally Identifiable Information (PII) from text. Please provide the text you'd like me to process, and I will redact any PII present.
+
 User: Here is the text "My full name is John Doe often listed as (John D.). I was born on January 7, 1985, and my Social Security Number (SSN)is 123-45-6789. You can reach me at (555) 223-4567 or via email at john.doe@example.com. I currently live at 1234 Elm Street, Redwood City, CA 94063. I’d also like to provide my driver’s license number, which is D1234567, issued by the state of California."
+
 Agent: Returns a response containing redacted text (and entities optionally).
+
 User: Can you only redact name and email address. 
+
 Agent: Returns only name and email addresses redacted, etc.
 
-### Translation:
+### Translation
 
 User: Can you translate the text to the French and German, "My full name is John Doe often listed as (John D.). I was born on January 7, 1985".
+
 Agent: Here is the translation of the text:
+
     French: Mon nom complet est John Doe, souvent répertorié comme (John D.). Je suis né le 7 janvier 1985
+
     German: Mein vollständiger Name ist John Doe, oft als (John D.) aufgeführt. Ich bin am 7. Januar 1985 geboren 
+
