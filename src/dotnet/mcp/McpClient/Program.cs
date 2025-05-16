@@ -15,18 +15,14 @@ internal class Program
     public static async Task Main(string[] args)
     {
         // initialize settings
-        var config = new ConfigurationBuilder()
-         .SetBasePath(AppContext.BaseDirectory)
-         .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-         .AddJsonFile("appsettings.development.json", optional: true, reloadOnChange: true)
-         .Build();
+        IConfigurationRoot config = InitializeConfiguration();
 
         // Define the transport for the client. This is where the MCP server will be running.
         var clientTransport = new StdioClientTransport(new StdioClientTransportOptions
         {
             Name = "language-tools",
             Command = "dotnet",
-            Arguments = ["run", "--project", "../../../../McpServer/Tools/LanguageAgentTools", config["Tools"]]
+            Arguments = ["run", "--project", "../../../../McpServer/Tools/LanguageTools", config["Tools"]]
         });
 
         // Configure your Azure OpenAI endpoint and deployment name here.
@@ -44,16 +40,18 @@ internal class Program
         // Print the list of tools available from the server.
         IList<McpClientTool> tools = await client.ListToolsAsync();
 
-        Console.WriteLine("Welcome to the Language Agent MCP client!");
-        Console.Write("These are the tools connected to the client: ");
+        Console.WriteLine("Welcome to the Language MCP client!");
         Console.WriteLine("\n");
 
+        Console.Write("List of tools connected to the client: ");
+        Console.WriteLine("\n");
 
         foreach (var tool in tools)
         {
             Console.WriteLine($"{tool.Name}: ({tool.Description})");
             Console.WriteLine();
         }
+        Console.WriteLine("--------------------------------------------------");
 
         // Create an IChatClient that can use the tools.
         using IChatClient chatClient = azureChatClient.AsIChatClient()
@@ -91,5 +89,14 @@ internal class Program
     {
         Console.WriteLine();
         Console.Write("Q: ");
+    }
+ 
+    private static IConfigurationRoot InitializeConfiguration()
+    {
+        return new ConfigurationBuilder()
+         .SetBasePath(AppContext.BaseDirectory)
+         .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+         .AddJsonFile("appsettings.development.json", optional: true, reloadOnChange: true)
+         .Build();
     }
 }

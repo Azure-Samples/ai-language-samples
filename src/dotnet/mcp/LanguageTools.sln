@@ -4,10 +4,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 17.13.35931.197
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{8EC462FD-D22E-90A8-E5CE-7E832BA40C5D}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "McpClient", "McpClient\McpClient.csproj", "{185A4F00-F574-5F80-CD98-7F3478D756BB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LanguageAgentTools", "McpServer\Tools\LanguageTools\LanguageAgentTools.csproj", "{5CCD5C4A-B3E7-18FD-2697-0B6187838335}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LanguageTools", "McpServer\Tools\LanguageTools\LanguageTools.csproj", "{5CCD5C4A-B3E7-18FD-2697-0B6187838335}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
