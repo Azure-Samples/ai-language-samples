@@ -1,13 +1,17 @@
 # This workflow will build a .NET project
 # For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
 
-name: .NET
+name: Build binaries for MCP dotnet server implementation
+# This workflow will build a .NET project
 
 on:
   push:
     branches: [ "main" ]
+    paths: ['src/dotnet/mcp/**', '.github/workflows/build-dotnet.yaml']
+
   pull_request:
     branches: [ "main" ]
+    paths: ['src/dotnet/mcp/**', '.github/workflows/build-dotnet.yaml']
 
 jobs:
   build:
@@ -21,8 +25,8 @@ jobs:
       with:
         dotnet-version: 8.0.x
     - name: Restore dependencies
-      run: dotnet restore
+      run: dotnet restore  src/dotnet/mcp --configuration Release
     - name: Build
-      run: dotnet build --no-restore
+      run: dotnet build --no-restore src/dotnet/mcp --configuration Release
     - name: Test
       run: dotnet test --no-build --verbosity normal
