@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-namespace LanguageAgentTools.Contracts
+namespace Azure.AI.Language.MCP.Server.Contracts
 {
     public enum RedactionPolicyEnum
     {

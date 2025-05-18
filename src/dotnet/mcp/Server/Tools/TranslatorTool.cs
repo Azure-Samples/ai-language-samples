@@ -2,19 +2,21 @@
 // Licensed under the MIT License.
 
 using System.ComponentModel;
-using Azure;
 using Azure.AI.Translation.Text;
 using Microsoft.Extensions.Logging;
 using ModelContextProtocol.Server;
 
 using Newtonsoft.Json;
 
-namespace LanguageAgentTools
+namespace Azure.AI.Language.MCP.Server.Tools
 {
+    /// <summary>
+    /// This class provides methods for translating text from one language to another using the Azure.AI.Language Translation service.
+    /// </summary>
     [McpServerToolType]
     internal class TranslatorTool
     {
-        [McpServerTool, Description("Translate text from one language to another")]
+        [McpServerTool(Title = "Text Translation Tool"), Description("Translate text from one language to another")]
         public static string Translate(
             TextTranslationClient client,
             [Description("The text to be translated")] string message,

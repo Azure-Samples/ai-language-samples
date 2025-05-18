@@ -1,22 +1,25 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+using Azure.AI.Language.MCP.Server.Contracts;
 using Azure.AI.Language.Text;
 using LanguageAgentTools.Clients.DocumentAnalysis;
 using LanguageAgentTools.Clients.DocumentAnalysis.Models;
 using LanguageAgentTools.Clients.Utils;
-using LanguageAgentTools.Contracts;
 using Microsoft.Extensions.Logging;
 using ModelContextProtocol.Server;
 using System.ComponentModel;
 
-namespace LanguageAgentTools
+namespace Azure.AI.Language.MCP.Server.Tools
 {
+    /// <summary>
+    /// This class provides methods for detecting and redacting Personally Identifiable Information (PII) from text and documents using Azure.AI.Language APIs.
+    /// </summary>
     [McpServerToolType]
     internal class PiiRedactionTool
     {
-        [McpServerTool, Description("Detects PII from input and redacts it to remove PII from the text. It can accept optional parameters like entity types to be redacted, entity types to be excluded also redaction policy used")]
-        public static string PiiRedact(
+        [McpServerTool(Title = "Text PII redaction tool" ), Description("Detects PII from the text input and redacts it to remove PII. It can accept optional parameters like entity types to be redacted, entity types to be excluded, redaction policy to be used.")]
+        public static string RedactPiiFromText(
             DocumentAnalysisClient client,
             [Description("The text that needs to be redated")] string message,
             [Description("(Optional) The list of Pii Categories to be redacted. The PII Categories allowed are string representations of the enum PiiCategoryEnum. Default is an empty list")] IList<string> piiCategories = default,
@@ -40,8 +43,8 @@ namespace LanguageAgentTools
             }
         }
 
-        [McpServerTool, Description("Detects and removed PII from word and PDF documents in Azure Storage blobs. This is  a long running operation with progress updates")]
-        public static async Task<string> DocumentPiiRedact(
+        [McpServerTool(Title = "Document PII redaction tool"), Description("Detects and removed PII from word and PDF documents in Azure Storage blobs. This is  a long running operation with progress updates")]
+        public static async Task<string> RedactPiiFromDocument(
             DocumentAnalysisClient client,
             [Description("The Uri of the blob to be redacted.")] Uri sourceDocument,
             [Description("The Uri of the container where the redacted document and results will be stored")] Uri targetDocument,

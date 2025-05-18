@@ -14,8 +14,8 @@
 1. .NET 8 SDK installed on your system.  
 2. Visual Studio or any other IDE supporting .NET development.
 3. Azure AI multi-service resource or separate Language and Translation resources (depending one your use case)
-4. (Optional) For using the provided MCP client, you will need an Azure Open AI resource with key based auth enabled and an open AI model already deployed (preferably gpt-4o).
-5. If using the VS Code copilot for testing, you can skip step 4 and use Copilot models.
+4. (Optional) For using the provided MCP client, you will need an Azure Open AI resource with key based auth enabled and deploy a model preferably gpt-4o. 
+5. If VS Code copilot Mcpclient is used for testing, you can skip step 4 and use Copilot models.
 
 ### Building the Mcp Server
 
@@ -27,17 +27,30 @@
 
 1. Nativate to the `src\dotnet\mcp\LanguageTools` folders
 1. Open the `appSettings.json`
-1. Update the required settings
+1. Update the required settings with the parameters
 
-##### Configuration guide
+```json
+{
+  "LanguageSettings": {
+    "Endpoint": "LanguageEndpoint",
+    "ApiKey": "LanguageApiKey"
+  },
+  "TranslatorSettings": {
+    "Endpoint": "https://api.cognitive.microsofttranslator.com",
+    "ApiKey": "TranslatorApiKey",
+    "Region": "Translator"
+  }
+}
+```
+
 
 | Parameter Name                         | Description                                                       |
 |----------------------------------------|-------------------------------------------------------------------|
-| `LanguageSettings:Endpoint`                     | Endpoint for the Azure AI Language Resource                                      |
-| `LanguageSettings:ApiKey`                           | ApiKey for the Azure AI Language Resource                             |
-| `TranslatorSettings:Endpoint`    | Endpoint for the Azure AI Translator Resource. Prefer to use a `global` resource          |
-| `TranslatorSettings:ApiKey`                        | ApiKey for the translator resource    |
-| `TranslatorSettings:Region`                     | Region of the translator resource,                                  |
+| `LanguageEndpoint`                     | Endpoint for the Azure AI Language / Azure AI services resource.  |
+| `LanguageApiKey`                           | ApiKey for the Azure AI Language / Azure AI services resource.|
+| `TranslatorEndpoint`    | Endpoint for the Azure AI Translator / Azure AI services resource.               |
+| `TranslatorApiKey`                        | ApiKey for the Translator/ Azure AI service resource           |
+| `TranslatorRegion`                     | Region of the Translator / Azure AI service resource.             |
 
 ## Testing  the Mcp Server
 

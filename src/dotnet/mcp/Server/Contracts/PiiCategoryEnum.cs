@@ -1,9 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-namespace LanguageAgentTools.Contracts
+namespace Azure.AI.Language.MCP.Server.Contracts
 {
     public enum PiiCategoryEnum
     {
+        All,
         ABARoutingNumber,
         ARNationalIdentityNumber,
         AUBankAccountNumber,
@@ -166,8 +167,7 @@ namespace LanguageAgentTools.Contracts
         PersonType,
         Address,
         DateTime,
-        VehicleIdentificationNumber,
-        All
+        VehicleIdentificationNumber
     };
 }
 

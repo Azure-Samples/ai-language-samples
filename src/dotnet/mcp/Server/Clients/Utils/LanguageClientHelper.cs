@@ -4,8 +4,8 @@
 using Azure.AI.Language.Text;
 using Newtonsoft.Json;
 using static Azure.AI.Language.Text.TextAnalysisClientOptions;
-using LanguageAgentTools.Contracts;
 using LanguageAgentTools.Clients.DocumentAnalysis.Models;
+using Azure.AI.Language.MCP.Server.Contracts;
 
 namespace LanguageAgentTools.Clients.Utils
 {
@@ -17,14 +17,20 @@ namespace LanguageAgentTools.Clients.Utils
         private const string DefaultInputId = "1";
 
         /// <summary>
-        /// Creates an input for text analysis tasks.
+        /// Creates an input for text analysis tasks, including PII category selection and redaction policy.
         /// </summary>
-        /// <param name="message">The list of text inputs.</param>
-        /// <returns>An instance of <see cref="AnalyzeTextInput"/>.</returns>
+        /// <param name="message">The text message to analyze.</param>
+        /// <param name="piiCategories">A list of PII categories to include in the analysis.</param>
+        /// <param name="excludePiiCategories">A list of PII categories to exclude from the analysis.</param>
+        /// <param name="redactionPolicy">The redaction policy to apply to detected PII entities.</param>
+        /// <param name="redactionCharacter">The character to use for character masking redaction.</param>
+        /// <param name="language">The language code of the input text.</param>
+        /// <param name="modelVersion">The version of the model to use for analysis.</param>
+        /// <returns>An <see cref="AnalyzeTextInput"/> configured for the specified parameters.</returns>
         public static AnalyzeTextInput CreateTextAnalysisTaskInput(
             string message,
             IList<string> piiCategories,
-            IList<string> excludePiiCategories, 
+            IList<string> excludePiiCategories,
             RedactionPolicyEnum redactionPolicy,
             char redactionCharacter,
             string language,
@@ -70,6 +76,18 @@ namespace LanguageAgentTools.Clients.Utils
             };
         }
 
+        /// <summary>
+        /// Creates an input for document analysis tasks, including PII entity recognition and redaction.
+        /// </summary>
+        /// <param name="source">The URI of the source document to analyze.</param>
+        /// <param name="target">The URI of the target document for output.</param>
+        /// <param name="piiCategories">A list of PII categories to include in the analysis.</param>
+        /// <param name="excludePiiCategories">A list of PII categories to exclude from the analysis.</param>
+        /// <param name="redactionPolicy">The redaction policy to apply to detected PII entities.</param>
+        /// <param name="redactionCharacter">The character to use for character masking redaction.</param>
+        /// <param name="language">The language code of the input document.</param>
+        /// <param name="modelVersion">The version of the model to use for analysis.</param>
+        /// <returns>A <see cref="DocumentPiiEntityRecognitionInput"/> configured for the specified parameters.</returns>
         public static DocumentPiiEntityRecognitionInput CreateDocumentAnalysisTaskInput(
             Uri source,
             Uri target,
@@ -77,7 +95,7 @@ namespace LanguageAgentTools.Clients.Utils
             IList<string> excludePiiCategories,
             string redactionPolicy,
             char redactionCharacter,
-            string language, 
+            string language,
             string modelVersion)
         {
             var input = new AnalyzeDocumentsInput();
@@ -90,17 +108,22 @@ namespace LanguageAgentTools.Clients.Utils
 
             var tasks = new AnalyzeDocumentsTask[]
             {
-                new AnalyzeDocumentsTask()
-                {
-                    Kind = AnalyzeDocumentsTaskKind.PiiEntityRecognition,
-                    Parameters = new DocumentPiiEntityRecognitionTaskParameters(piiCategories, excludePiiCategories, new RedactionPolicy(redactionPolicy, redactionCharacter), modelVersion),
-                    
-                }
+                        new AnalyzeDocumentsTask()
+                        {
+                            Kind = AnalyzeDocumentsTaskKind.PiiEntityRecognition,
+                            Parameters = new DocumentPiiEntityRecognitionTaskParameters(piiCategories, excludePiiCategories, new RedactionPolicy(redactionPolicy, redactionCharacter), modelVersion),
+
+                        }
             };
 
             return new DocumentPiiEntityRecognitionInput(input, tasks);
         }
 
+        /// <summary>
+        /// Converts a <see cref="RedactionPolicyEnum"/> value to its corresponding <see cref="RedactionPolicyKind"/> value.
+        /// </summary>
+        /// <param name="redactionPolicyEnum">The redaction policy enumeration value.</param>
+        /// <returns>The corresponding <see cref="RedactionPolicyKind"/>.</returns>
         public static RedactionPolicyKind ToRedactionPolicyKind(this RedactionPolicyEnum redactionPolicyEnum)
         {
             return redactionPolicyEnum switch
@@ -112,10 +135,10 @@ namespace LanguageAgentTools.Clients.Utils
         }
 
         /// <summary>
-        /// Gets the service version for text analytics based on the API version string.
+        /// Gets the <see cref="ServiceVersion"/> for text analytics based on the provided API version string.
         /// </summary>
-        /// <param name="apiVersion">The API version string.</param>
-        /// <returns>The corresponding <see cref="ServiceVersion"/>.</returns>
+        /// <param name="apiVersion">The API version string (e.g., "2023-04-01").</param>
+        /// <returns>The corresponding <see cref="ServiceVersion"/>. If the version is not recognized, returns the latest available version.</returns>
         public static ServiceVersion GetTextAnalyticsServiceVersion(string apiVersion)
         {
             if (!string.IsNullOrEmpty(apiVersion))
@@ -130,10 +153,10 @@ namespace LanguageAgentTools.Clients.Utils
         }
 
         /// <summary>
-        /// Converts the API response to a concise format for MCP response.
+        /// Converts the API response from text PII entity recognition to a JSON string suitable for MCP response.
         /// </summary>
-        /// <param name="response">The SDK response.</param>
-        /// <returns>The transformed <see cref="LanguageTextResult"/>.</returns>
+        /// <param name="response">The SDK response of type <see cref="AnalyzeTextResult"/>.</param>
+        /// <returns>A JSON string representing the result or errors.</returns>
         public static string ToPiiEntityRecognitionResult(this AnalyzeTextResult response)
         {
             if (response is AnalyzeTextPiiResult piiResult)
@@ -149,13 +172,13 @@ namespace LanguageAgentTools.Clients.Utils
         }
 
         /// <summary>
-        /// Converts the API response to a concise format for MCP response.
+        /// Converts the API response from document PII entity recognition to a JSON string suitable for MCP response.
         /// </summary>
-        /// <param name="response"></param>
-        /// <returns></returns>
+        /// <param name="response">The SDK response of type <see cref="AnalyzeDocumentsJobState"/>.</param>
+        /// <returns>A JSON string representing the result or errors.</returns>
         public static string ToDocumentPiiEntityRecognitionResult(this AnalyzeDocumentsJobState response)
         {
-            if(response.Error != null)
+            if (response.Error != null)
             {
                 return JsonConvert.SerializeObject(response.Error);
             }
