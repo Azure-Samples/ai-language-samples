@@ -25,7 +25,7 @@ jobs:
       with:
         dotnet-version: 8.0.x
     - name: Restore dependencies
-      run: dotnet restore  src/dotnet/mcp --configuration Release
+      run: dotnet restore  src/dotnet/mcp 
     - name: Build
       run: dotnet build --no-restore src/dotnet/mcp --configuration Release
     - name: Test
