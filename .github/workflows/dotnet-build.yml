@@ -1,13 +1,17 @@
 # This workflow will build a .NET project
 # For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
 
-name: .NET
+name: Build binaries for Language MCP dotnet implementation
+# This workflow will build a .NET project
 
 on:
   push:
     branches: [ "main" ]
+    paths: ['src/dotnet/mcp/**', '.github/workflows/build-dotnet.yaml']
+
   pull_request:
     branches: [ "main" ]
+    paths: ['src/dotnet/mcp/**', '.github/workflows/build-dotnet.yaml']
 
 jobs:
   build:
@@ -21,8 +25,19 @@ jobs:
       with:
         dotnet-version: 8.0.x
     - name: Restore dependencies
-      run: dotnet restore
+      run: dotnet restore  src/dotnet/mcp 
     - name: Build
-      run: dotnet build --no-restore
+      run: dotnet build --no-restore src/dotnet/mcp --configuration Release
     - name: Test
-      run: dotnet test --no-build --verbosity normal
+      run: dotnet test src/dotnet/mcp --no-build --verbosity normal
+    - name: Publish win-64 server
+      run: dotnet publish src/dotnet/mcp/Server/LanguageMcpServer.csproj -c Release -r win-x64 --self-contained true /p:PublishSingleFile=true --output ./artifacts/Server/win-x64
+    - name: Publish linux-64 server
+      run: dotnet publish src/dotnet/mcp/Server/LanguageMcpServer.csproj -c Release -r linux-x64 --self-contained true /p:PublishSingleFile=true --output ./artifacts/Server/linux-x64
+    - name: Publish client
+      run: dotnet publish src/dotnet/mcp/Client/ --configuration Release --output ./artifacts/Client
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: mcp-dotnet
+        path: ./artifacts
