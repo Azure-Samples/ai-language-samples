@@ -1,7 +1,7 @@
 # This workflow will build a .NET project
 # For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
 
-name: Build binaries for MCP dotnet server implementation
+name: Build binaries for Language MCP dotnet implementation
 # This workflow will build a .NET project
 
 on:
@@ -32,6 +32,8 @@ jobs:
       run: dotnet test src/dotnet/mcp --no-build --verbosity normal
     - name: Publish server
       run: dotnet publish src/dotnet/mcp/Server/ --configuration Release --output ./artifacts/Server
+    - name: Publish client
+      run: dotnet publish src/dotnet/mcp/Client/ --configuration Release --output ./artifacts/Client
     - name: Upload artifacts
       uses: actions/upload-artifact@v4
       with:
