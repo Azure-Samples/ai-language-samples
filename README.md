@@ -22,7 +22,7 @@ This repository hosts samples that help you to get started with Azure AI Languag
 
 | Sample | Platform | Description |
 | ---------- | -------- | ----------- |
-| [Quickstart for Language Mcp Server](https://github.com/Azure-Samples/ai-language-samples/tree/bidishac/new-mcp-samples/src/dotnet/mcp) | Windows, Linux | Language MCP server with built-in core Language service capabilities as tools - PII (personally identifiable information) recognition and redaction on documents/text and translation. |
+| [Quickstart for Language Mcp Server](https://github.com/Azure-Samples/ai-language-samples/tree/main/src/dotnet/mcp) | Windows, Linux | Language MCP server with built-in core Language service capabilities as tools - PII (personally identifiable information) recognition and redaction on documents/text and translation. |
 
 ## Resources
 
