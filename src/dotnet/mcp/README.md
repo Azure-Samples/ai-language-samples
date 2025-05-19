@@ -1,6 +1,6 @@
-# LanguageTools  
+# LanguageMcpServer
 
-`LanguageTools` is a .NET 8 project that provides an MCP Server implementation with built-in support to use PII (Personally Identifiable Information) redaction in text and documents and text translation tools.  
+`LanguageMcpServer` is a .NET 8 project that provides an MCP Server implementation with built-in support to use PII (Personally Identifiable Information) redaction in text and documents and text translation tools.  
 This MCP Server uses Standard Input/Output (stdio) transport to communicate with any MCP client.
 
 ## Features
@@ -96,7 +96,7 @@ args: ["All"] // You can use "All" to register all tools or the name of the indi
 
 The LanguagMcp solution provides an MCP Console client called `LanguageMcpClient` which can be used to integrate with the McpServer. To test using the provided MCP client, follow these steps:
 
-1. Open the `src/dotnet/mcp/LanguageTools.sln` in `Visual Studio`.
+1. Open the `src/dotnet/mcp/LanguageMcp.sln` in `Visual Studio`.
 1. Navigate to the `LanguageMcpClient` project in the solution and open the `appSettings.json` file.
 1. Update the required settings as shown below.
 1. Build the project
