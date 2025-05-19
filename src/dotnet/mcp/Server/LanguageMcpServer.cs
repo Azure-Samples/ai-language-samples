@@ -2,13 +2,11 @@
 // Licensed under the MIT License.
 
 using System.Diagnostics;
-using System.Globalization;
 using Azure.AI.Language.MCP.Server.Tools;
 using Azure.AI.Language.Text;
 using Azure.AI.Translation.Text;
 using LanguageAgentTools.Clients.DocumentAnalysis;
 using LanguageAgentTools.Clients.Utils;
-using Microsoft;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -55,7 +53,7 @@ namespace Azure.AI.Language.MCP.Server
                 }
             }
 
-            string exePath = System.Reflection.Assembly.GetExecutingAssembly().Location;
+            string exePath = Process.GetCurrentProcess().MainModule?.FileName ?? System.Reflection.Assembly.GetExecutingAssembly().Location;
             string exeDirectory = Path.GetDirectoryName(exePath);
 
             // initialize settings
@@ -87,13 +85,13 @@ namespace Azure.AI.Language.MCP.Server
         {
             var config = builder.Configuration;
 
+            if (!Uri.TryCreate(config["LanguageSettings:Endpoint"], UriKind.Absolute, out var endpoint))
+            {
+                throw new ArgumentException($"Invalid LanguageSettings endpoint. {config["LanguageSettings:Endpoint"]}. Please update the credentials in the appSettings.");
+            }
+
             builder.Services.AddSingleton(p =>
             {
-                if (!Uri.TryCreate(config["LanguageSettings:Endpoint"], UriKind.Absolute, out var endpoint))
-                {
-                    throw new ArgumentException($"Invalid LanguageSettings endpoint. {config["LanguageSettings:Endpoint"]}. Please update the credentials in the appSettings.");
-                }
-
                 var apiKey = config["LanguageSettings:ApiKey"];
                 string apiVersion = "2024-11-15-preview";
 
@@ -113,14 +111,15 @@ namespace Azure.AI.Language.MCP.Server
         internal static void InitializeTranslatorTool(HostApplicationBuilder builder, IMcpServerBuilder mcpServerBuilder)
         {
             var config = builder.Configuration;
+
+            if(!Uri.TryCreate(config["TranslatorSettings:Endpoint"], UriKind.Absolute, out var endpoint))
+            {
+                throw new ArgumentException($"Invalid Translator endpoint. {config["TranslatorSettings:Endpoint"]}. Please update the credentials in the appSettings.");
+            }
+
             builder.Services.AddSingleton(
                 p =>
                 {
-                    if (!Uri.TryCreate(config["TranslatorSettings:Endpoint"], UriKind.Absolute, out var endpoint))
-                    {
-                        throw new ArgumentException($"Invalid Translator endpoint. {config["TranslatorSettings:Endpoint"]}. Please update the credentials in the appSettings.");
-                    }
-
                     var apiKey = config["TranslatorSettings:ApiKey"];
                     var region = config["TranslatorSettings:Region"];
 
