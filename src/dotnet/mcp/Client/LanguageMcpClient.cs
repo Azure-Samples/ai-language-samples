@@ -28,7 +28,11 @@ namespace Azure.AI.Language.MCP.Client
             // initialize settings
             IConfigurationRoot config = LoadConfiguration();
 
-            // Define the transport for the client. This is where the MCP server will be running.
+            // Defines the transport for the client. This is where the MCP server will be running.
+            // In this setup the MCP server is expected to be running in the Server directory.
+            // If you are running the MCP server in a different directory, you need to update the command and arguments accordingly.
+            // When using binaries, the command should be the path to the MCP server executable and the args will need to be adjusted accordingly,
+            // i.e. only the tool name config will be the only argument here.
             var clientTransport = new StdioClientTransport(new StdioClientTransportOptions
             {
                 Name = "language-mcp-server",

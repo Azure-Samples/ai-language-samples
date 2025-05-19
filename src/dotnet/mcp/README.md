@@ -34,6 +34,14 @@ You can download the latest binaries from the build artifacts.
 1. Build the `src\dotnet\mcp\LanguageMcp.sln` solution. `dotnet build .\src\dotnet\mcp\`
 1. Test using an MCP client.
 
+#### Commandline arguments
+
+The MCP Server can accept an optional command-line parameter which instructs which tools are needed. Values:
+
+1. All - for all tools
+1. PiiRedactionTool - for the PII tools
+1. TranslatorTool - for the translator tools
+
 ### Language MCP Server Configuration Required (Even When Using Binaries)
 
 Even if you're using the pre-built binaries, you must configure the application by updating the `appsettings.json` file.
@@ -65,9 +73,9 @@ Before running the application, make sure to update the following settings:
 |----------------------------------------|-------------------------------------------------------------------|
 | `YourLanguageEndpoint`                 | Endpoint for the Azure AI Language / Azure AI Aervices resource to be used for PII detection.  |
 | `YourLanguageApiKey`                   | ApiKey for the Azure AI Language / Azure AI services resource  to be used for PII detection.|
-| `YourTranslatorEndpoint`                   | Endpoint for the Azure AI Translator / Azure AI services resource  to be used for Translation.               |
-| `YourTranslatorApiKey`                     | ApiKey for the Translator/ Azure AI service resource to be used for Translation          |
-| `YourTranslatorRegion`                     | Region of the Translator / Azure AI service resource to be used for Translation         |
+| `YourTranslatorEndpoint`               | Endpoint for the Azure AI Translator / Azure AI services resource  to be used for Translation.               |
+| `YourTranslatorApiKey`                 | ApiKey for the Translator/ Azure AI service resource to be used for Translation          |
+| `YourTranslatorRegion`                 | Region of the Translator / Azure AI service resource to be used for Translation         |
 
 If you only want to perform only one operation, you can update just those settings.
 
@@ -161,3 +169,15 @@ Agent: Here is the translation of the text:
 
     **German:** Mein vollständiger Name ist John Doe, oft als (John D.) aufgeführt. Ich bin am 7. Januar 1985 geboren 
 
+### Document redaction
+
+User: Can you help redact PII information from this PDF "https://my-azure-blob-location/input/Content.pdf"
+
+Agent: Sure where do you want to save the redacted doc?
+
+User: Save it in the same storage container but in the "output" container instead.
+
+Agent: The PII information within your PDF document has been successfully redacted. The redacted files have been saved in the "output" container. You can access the files using the following links:
+
+1. **Redacted PDF**: [Redacted Document](https://my-azure-blob-location/output/113f7244-0a91-49cc-9b69-2728b24778f5/PiiEntityRecognition/0001/Content.pdf)
+2. **Redaction Results (JSON)**: [Redaction Details](https://my-azure-blob-location/output/113f7244-0a91-49cc-9b69-2728b24778f5/PiiEntityRecognition/0001/Content.json)
