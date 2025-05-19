@@ -30,3 +30,9 @@ jobs:
       run: dotnet build --no-restore src/dotnet/mcp --configuration Release
     - name: Test
       run: dotnet test src/dotnet/mcp --no-build --verbosity normal
+    - name: Publish
+      run: dotnet publish src/dotnet/mcp --configuration Release --output ./artifacts
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: mcp-dotnet
