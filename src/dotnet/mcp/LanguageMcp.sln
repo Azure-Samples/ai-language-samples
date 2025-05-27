@@ -12,6 +12,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LanguageMcpClient", "Client
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LanguageMcpServer", "Server\LanguageMcpServer.csproj", "{76ECE765-2EC1-8FC1-7CF6-6FE7CE7FCF62}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LanguageMcpServer.Test", "..\..\..\test\LanguageMcpServer.Test\LanguageMcpServer.Test.csproj", "{E9835451-597C-4BEE-A72A-731784B87B4C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -26,6 +28,10 @@ Global
 		{76ECE765-2EC1-8FC1-7CF6-6FE7CE7FCF62}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{76ECE765-2EC1-8FC1-7CF6-6FE7CE7FCF62}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{76ECE765-2EC1-8FC1-7CF6-6FE7CE7FCF62}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E9835451-597C-4BEE-A72A-731784B87B4C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E9835451-597C-4BEE-A72A-731784B87B4C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E9835451-597C-4BEE-A72A-731784B87B4C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E9835451-597C-4BEE-A72A-731784B87B4C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

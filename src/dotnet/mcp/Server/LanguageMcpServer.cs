@@ -2,10 +2,12 @@
 // Licensed under the MIT License.
 
 using System.Diagnostics;
+using Azure.AI.Language.MCP.Server.Clients.Language;
+using Azure.AI.Language.MCP.Server.Clients.Translator;
+using Azure.AI.Language.MCP.Server.Clients.Translator.Impl;
 using Azure.AI.Language.MCP.Server.Tools;
 using Azure.AI.Language.Text;
 using Azure.AI.Translation.Text;
-using LanguageAgentTools.Clients.DocumentAnalysis;
 using LanguageAgentTools.Clients.Utils;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -90,14 +92,14 @@ namespace Azure.AI.Language.MCP.Server
                 throw new ArgumentException($"Invalid LanguageSettings endpoint. {config["LanguageSettings:Endpoint"]}. Please update the credentials in the appSettings.");
             }
 
-            builder.Services.AddSingleton(p =>
+            builder.Services.AddSingleton<ILanguageClient>(p =>
             {
                 var apiKey = config["LanguageSettings:ApiKey"];
                 string apiVersion = "2024-11-15-preview";
 
                 var credential = new AzureKeyCredential(apiKey);
                 var options = new TextAnalysisClientOptions(LanguageClientHelper.GetTextAnalyticsServiceVersion(apiVersion));
-                var client = new DocumentAnalysisClient(endpoint, credential, options);
+                var client = new LanguageClient(endpoint, credential, options);
                 return client;
             });
             mcpServerBuilder.WithTools<PiiRedactionTool>();
@@ -126,6 +128,8 @@ namespace Azure.AI.Language.MCP.Server
                     var client = new TextTranslationClient(new AzureKeyCredential(apiKey), endpoint, region: region);
                     return client;
                 });
+
+            builder.Services.AddSingleton<ITranslatorClient, TranslatorClient>();
 
             mcpServerBuilder.WithTools<TranslatorTool>();
         }

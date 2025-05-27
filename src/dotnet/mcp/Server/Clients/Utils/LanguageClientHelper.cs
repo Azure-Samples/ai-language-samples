@@ -4,8 +4,10 @@
 using Azure.AI.Language.Text;
 using Newtonsoft.Json;
 using static Azure.AI.Language.Text.TextAnalysisClientOptions;
-using LanguageAgentTools.Clients.DocumentAnalysis.Models;
 using Azure.AI.Language.MCP.Server.Contracts;
+using Newtonsoft.Json.Serialization;
+using Azure.AI.Translation.Text;
+using Azure.AI.Language.MCP.Server.Clients.Language.DocumentAnalysis.Models;
 
 namespace LanguageAgentTools.Clients.Utils
 {
@@ -15,6 +17,13 @@ namespace LanguageAgentTools.Clients.Utils
     internal static class LanguageClientHelper
     {
         private const string DefaultInputId = "1";
+
+        static JsonSerializerSettings DefaultJsonSerializerSettings = new JsonSerializerSettings 
+        { 
+            NullValueHandling = NullValueHandling.Ignore,
+            DefaultValueHandling = DefaultValueHandling.Ignore,
+            ContractResolver = new CamelCasePropertyNamesContractResolver(),
+        };
 
         /// <summary>
         /// Creates an input for text analysis tasks, including PII category selection and redaction policy.
@@ -143,7 +152,7 @@ namespace LanguageAgentTools.Clients.Utils
         {
             if (!string.IsNullOrEmpty(apiVersion))
             {
-                var serviceVersion = $"V{apiVersion.Replace('-', '_')}";
+                var serviceVersion = $"TextPIIDescription{apiVersion.Replace('-', '_')}";
                 if (Enum.TryParse<ServiceVersion>(serviceVersion, out var version))
                 {
                     return version;
@@ -159,16 +168,32 @@ namespace LanguageAgentTools.Clients.Utils
         /// <returns>A JSON string representing the result or errors.</returns>
         public static string ToPiiEntityRecognitionResult(this AnalyzeTextResult response)
         {
+            if (response == null)
+            {
+                return string.Empty;
+            }
+
             if (response is AnalyzeTextPiiResult piiResult)
             {
-                if (piiResult.Results.Errors.Any())
+                if (piiResult?.Results?.Errors.Any() ?? false)
                 {
-                    return JsonConvert.SerializeObject(piiResult.Results.Errors);
+                    return JsonConvert.SerializeObject(piiResult.Results.Errors, DefaultJsonSerializerSettings);
                 }
-                return JsonConvert.SerializeObject(piiResult.Results.Documents);
+                return JsonConvert.SerializeObject(piiResult?.Results?.Documents, DefaultJsonSerializerSettings);
 
             }
-            return "Not supported feature.";
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Converts the API response from translation to a string suitable for MCP response.
+        /// </summary>
+        /// <param name="translatedTextItems"></param>
+        /// <returns></returns>
+        public static string ToTranslationResult(this IReadOnlyList<TranslatedTextItem> translatedTextItems)
+        {
+            // Combine translations into a single string for simplicity.
+            return JsonConvert.SerializeObject(translatedTextItems.Select(item => item.Translations), DefaultJsonSerializerSettings);
         }
 
         /// <summary>
@@ -180,17 +205,17 @@ namespace LanguageAgentTools.Clients.Utils
         {
             if (response.Error != null)
             {
-                return JsonConvert.SerializeObject(response.Error);
+                return JsonConvert.SerializeObject(response.Error, DefaultJsonSerializerSettings);
             }
 
-            if (response.Errors.Any())
+            if (response.Errors?.Any() ?? false)
             {
-                return JsonConvert.SerializeObject(response.Errors);
+                return JsonConvert.SerializeObject(response.Errors, DefaultJsonSerializerSettings);
             }
 
-            var errorsInResponse = response.Tasks.Items.Where(task => task.Results.Errors.Any());
+            var errorsInResponse = response.Tasks.Items.Where(task => task.Results?.Errors?.Any() ?? false);
 
-            if (errorsInResponse.Any())
+            if (errorsInResponse?.Any() ?? false)
             {
                 return JsonConvert.SerializeObject(errorsInResponse.SelectMany(task => task.Results.Errors));
             }
