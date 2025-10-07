@@ -7,7 +7,7 @@ name: Build binaries for Language MCP dotnet implementation
 on:
   push:
     branches: [ "main" ]
-    paths: ['src/dotnet/mcp/**', '.github/workflows/build-dotnet.yaml']
+    paths: ['src/dotnet/mcp/**', '.github/workflows/build-dotnet-release.yaml']
 
 permissions:
   contents: write
@@ -62,7 +62,7 @@ jobs:
       with:
         tag_name: auto-release-${{ github.run_number }}
         name: Auto Release ${{ github.run_number }}
-        files: release.zip
+        files: local-language-mcp-server.zip
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
