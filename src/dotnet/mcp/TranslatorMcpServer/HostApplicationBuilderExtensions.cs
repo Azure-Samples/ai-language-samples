@@ -2,7 +2,6 @@
 //  Licensed under the MIT License.
 
 using System.Diagnostics;
-using System.Reflection;
 using Azure.AI.Language.MCP.Common.Logger;
 using Azure.AI.Language.MCP.Common.Settings;
 using Azure.AI.Language.MCP.Server.Translator.Clients.Translator;
@@ -49,7 +48,7 @@ namespace Azure.AI.Language.MCP.Server.Translator
         /// <param name="builder">The application builder.</param>
         public static AzureAIResourceSettings ConfigureAppSettings(this HostApplicationBuilder builder)
         {
-            string exePath = Process.GetCurrentProcess().MainModule?.FileName ?? Assembly.GetExecutingAssembly().Location;
+            string exePath = Process.GetCurrentProcess().MainModule?.FileName ?? AppContext.BaseDirectory;
             string exeDirectory = Path.GetDirectoryName(exePath);
 
             builder.Configuration

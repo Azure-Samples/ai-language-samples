@@ -2,7 +2,6 @@
 //  Licensed under the MIT License.
 
 using System.Diagnostics;
-using System.Reflection;
 using Azure.AI.Language.Conversations;
 using Azure.AI.Language.MCP.Common.Logger;
 using Azure.AI.Language.MCP.Common.Settings;
@@ -45,7 +44,7 @@ namespace Azure.AI.Language.MCP.Server.Utils
         /// <param name="builder">The application builder.</param>
         public static AzureAIResourceSettings ConfigureAppSettings(this HostApplicationBuilder builder)
         {
-            string exePath = Process.GetCurrentProcess().MainModule?.FileName ?? Assembly.GetExecutingAssembly().Location;
+            string exePath = Process.GetCurrentProcess().MainModule?.FileName ?? AppContext.BaseDirectory;
             string exeDirectory = Path.GetDirectoryName(exePath) ?? throw new ArgumentNullException("The directory containing the executable could not be determined.");
 
             builder.Configuration
