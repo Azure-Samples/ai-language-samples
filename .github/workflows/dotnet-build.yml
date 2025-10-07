@@ -32,7 +32,7 @@ jobs:
       run: dotnet build --no-restore src/dotnet/mcp --configuration Release
     
     - name: Test
-      run: dotnet test src/dotnet/mcp/McpServer.Test/McpServer.Test.csproj --no-build --verbosity normal
+      run: dotnet test src/dotnet/mcp/McpServer.Test/McpServer.Test.csproj -configuration Release --verbosity normal
     
     - name: Publish LanguageMcpServer win-64 server
       run: dotnet publish src/dotnet/mcp/LanguageMcpServer/LanguageMcpServer.csproj -c Release -r win-x64 --self-contained true /p:PublishSingleFile=true --output ./artifacts/Server/LanguageMcpServer/win-x64
