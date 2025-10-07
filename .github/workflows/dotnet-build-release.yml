@@ -9,6 +9,8 @@ on:
     branches: [ "main" ]
     paths: ['src/dotnet/mcp/**', '.github/workflows/build-dotnet-release.yaml']
 
+  workflow_dispatch:  # Enables manual trigger from the GitHub UI    
+
 permissions:
   contents: write
 
@@ -55,7 +57,7 @@ jobs:
         path: ./artifacts
 
     - name: Zip published output
-      run: zip -r release.zip ./artifacts
+      run: zip -r local-language-mcp-server.zip ./artifacts
 
     - name: Create GitHub Release
       uses: softprops/action-gh-release@v2
