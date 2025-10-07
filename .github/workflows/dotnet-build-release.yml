@@ -9,6 +9,9 @@ on:
     branches: [ "main" ]
     paths: ['src/dotnet/mcp/**', '.github/workflows/build-dotnet.yaml']
 
+permissions:
+  contents: write
+
 jobs:
   build:
 
