@@ -61,11 +61,11 @@ You can download the latest binaries from the build artifacts.
 1. Build the `src\dotnet\mcp\LanguageMcp.sln` solution. `dotnet build .\src\dotnet\mcp\`
 1. Test using an MCP client.
 
-### Setting up the LanguageMcpServer
+## Setting up the LanguageMcpServer
 
-#### Commandline arguments
+The `LanguageMcpServer` accepts one optional commandline argument which instructs which tools are needed. the accpeted value is a comma-separated string containing all the tools expected to be run. If nothing is specified all tools are run. You can use the `args` attrubute of the mcp server to pass this value.
 
-The Language MCP Server accepts an optional command-line parameter which instructs which tools are needed. If nothing is specified all tools are run. Currently ths following values are supported for tools:
+Currently ths following values are supported for commandline parameter:
 
 - `PiiRedactionTool`
 - `ExtractEntitiesTool`
@@ -114,19 +114,7 @@ Before running the application, make sure to update the following settings in th
 | `CLUSettings.ProjectName`              | The Conversational Language Understanding project name. (Required when using the `ConversationalUnderstandingTool`)|
 | `CLUSettings.DeploymentName`            | The Conversational Language Understanding deployment name.(Required when using the `ConversationalUnderstandingTool`)|
 
-#### Testing the LanguageMCPServer
-
-You can test the MCP Server by connecting it to any MCP Client as an stdio transport. The stdio transport enables communication through standard input and output streams.
-
-##### Using the binaries
-
-```dotnetcli
-
-command: "<path to MCP server binaries>/LanguageMcpServer.exe"
-args: ["All"] // You can use "All" to register all tools or the name of the individual tools you want to test
-
-```
-### Setting up the TranslatorMcpServer
+## Setting up the TranslatorMcpServer
 
 ### Required `appSettings` updates in TranslatorMcpServer (Even When Using Binaries)
 
@@ -155,20 +143,9 @@ Before running the application, make sure to update the following settings in th
 | `YourTranslatorApiKey`                 | ApiKey for the Translator/ Azure AI service resource to be used for Translation          |
 | `YourTranslatorRegion`                 | Region of the Translator / Azure AI service resource to be used for Translation         |
 
-#### Testing the TranslatorMCPServer
+## Testing / Integrating the MCP Servers
 
-You can test the MCP Server by connecting it to any MCP Client as an stdio transport. The stdio transport enables communication through standard input and output streams.
-
-##### Using binaries
-
-```dotnetcli
-
-command: "<path to MCP server binaries>/TranslatorMcpServer.exe"
-args: ["All"] // You can use "All" to register all tools or the name of the individual tools you want to test
-
-```
-
-### Configuring the built-in MCP client
+### Using Built-in MCP client
 
 The `LanguagAIMcp` solution provides an MCP Console client called `McpClient` which can be used to integrate and tests the McpServers. To test using the provided MCP client, follow these steps:
 
@@ -179,7 +156,7 @@ The `LanguagAIMcp` solution provides an MCP Console client called `McpClient` wh
 1. Run the project from Visual Studio
 1. A terminal will be launched. Test the tools for PII redaction and Language Translation using natural language.
 
-#### Language MCP Client Configuration Required
+### MCP Client Configuration Required
 
 ```json
 {
@@ -206,7 +183,7 @@ The `LanguagAIMcp` solution provides an MCP Console client called `McpClient` wh
 1. Install [nodejs](https://nodejs.org/en/download/)
 1. Launch Visual Studio Code.
 1. Install [MCP copilot extension](https://code.visualstudio.com/docs/copilot/chat/mcp-servers?wt.md_id=AZ-MVP-5004796#_enable-mcp-support-in-vs-code) for VS Code.
-1. Click on the `Add Server` link to add the `LanguageMcpServer` or `TranslatorMcpServer`.
+1. Click on the `Add Server` link to add the `LanguageMcpServer` or `TranslatorMcpServer` or both.
 1. Open Copilot chat and switch to "Agent" mode from the drop down. Select the `gpt-4.1` model from the models drop down
 1. Test the tools for PII redaction and Language Translation using natural language.
 
@@ -216,12 +193,11 @@ The `LanguagAIMcp` solution provides an MCP Console client called `McpClient` wh
             "language-mcp-server": {
                 "type": "stdio",
                 "command": "<path to MCP server binaries>/LanguageMcpServer.exe",
-                "args": ["All"],
+                "args": ["All"], // name of the tools to be run
             },
             "translator-mcp-server": {
                 "type": "stdio",
                 "command": "<path to MCP server binaries>/TranslatorMcpServer.exe",
-                "args": ["All"],
             }
         }
     }
