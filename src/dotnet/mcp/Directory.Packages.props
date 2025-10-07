@@ -1,0 +1,48 @@
+<Project>
+  <PropertyGroup>
+    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageVersion Include="Azure.AI.Language.Conversations" Version="2.0.0-beta.3" />
+    <PackageVersion Include="Azure.AI.Language.QuestionAnswering" Version="1.1.0" />
+    <PackageVersion Include="Azure.AI.Translation.Text" Version="1.0.0" />
+    <PackageVersion Include="Azure.AI.Language.Text" Version="1.0.0-beta.3" />
+    <PackageVersion Include="Azure.AI.OpenAI" Version="2.2.0-beta.4" />
+    <PackageVersion Include="Azure.Data.Tables" Version="12.10.0" />
+    <PackageVersion Include="Azure.Core" Version="1.46.1" />
+    <PackageVersion Include="Azure.Identity" Version="1.14.1" />
+    <PackageVersion Include="coverlet.collector" Version="3.2.0" />
+    <PackageVersion Include="FluentAssertions" Version="6.7.0" />
+    <PackageVersion Include="FluentAssertions.Json" Version="6.1.0" />
+    <PackageVersion Include="Helpers.System.Threading.Tasks" Version="1.0.1" />
+    <PackageVersion Include="Microsoft.Azure.Kusto.Data" Version="13.0.2" />
+    <PackageVersion Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.8" />
+    <PackageVersion Include="Microsoft.CognitiveServices.TextAnalytics.Evaluation.Common" Version="1.0.2771.83" />
+    <PackageVersion Include="Microsoft.CognitiveServices.TextAnalytics.Evaluation.Sequence" Version="1.0.2771.83" />
+    <PackageVersion Include="Microsoft.Extensions.AI" Version="9.6.0" />
+    <PackageVersion Include="Microsoft.Extensions.AI.OpenAI" Version="9.6.0-preview.1.25310.2" />
+    <PackageVersion Include="Microsoft.Extensions.Configuration" Version="9.0.9" />
+    <PackageVersion Include="Microsoft.Extensions.Configuration.Abstractions" Version="6.0.0" />
+    <PackageVersion Include="Microsoft.Extensions.Configuration.FileExtensions" Version="9.0.9" />
+    <PackageVersion Include="Microsoft.Extensions.Configuration.Json" Version="9.0.9" />
+    <PackageVersion Include="Microsoft.Extensions.Hosting" Version="10.0.0-preview.3.25171.5" />
+    <PackageVersion Include="Microsoft.Extensions.Logging" Version="8.0.1" />
+    <PackageVersion Include="Microsoft.Extensions.Logging.Console" Version="8.0.1" />
+    <PackageVersion Include="Microsoft.VisualStudio.Validation" Version="17.8.8" />
+    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="18.0.0" />
+    <PackageVersion Include="ModelContextProtocol" Version="0.1.0-preview.14" />
+    <PackageVersion Include="Moq" Version="4.20.72" />
+    <PackageVersion Include="MSTest" Version="3.9.0" />
+    <PackageVersion Include="MSTest.TestAdapter" Version="3.9.0" />
+    <PackageVersion Include="MSTest.TestFramework" Version="3.9.0" />
+    <PackageVersion Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageVersion Include="ObjectsComparer" Version="1.4.1" />
+    <PackageVersion Include="Polly" Version="7.2.3" />
+    <PackageVersion Include="Serilog.AspNetCore" Version="9.0.0" />
+    <PackageVersion Include="Serilog.Sinks.File" Version="7.0.0" />
+    <PackageVersion Include="StyleCop.Analyzers" Version="1.1.118" />
+    <PackageVersion Include="System.Text.Json" Version="8.0.5" />
+    <PackageVersion Include="xunit" Version="2.5.3" />
+    <PackageVersion Include="xunit.runner.visualstudio" Version="2.5.3" />
+  </ItemGroup>
+</Project>

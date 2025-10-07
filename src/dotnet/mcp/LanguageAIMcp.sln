@@ -1,0 +1,54 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.13.35931.197
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{8EC462FD-D22E-90A8-E5CE-7E832BA40C5D}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LanguageMcpServer", "LanguageMcpServer\LanguageMcpServer.csproj", "{563DFD5B-A767-7468-E790-6C78B7C7847C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "McpCommon", "McpCommon\McpCommon.csproj", "{A64B7EA8-D0F3-F1DE-6B9C-F614B3677A3B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TranslatorMcpServer", "TranslatorMcpServer\TranslatorMcpServer.csproj", "{4F1F5C7D-A8B3-24B4-E694-414EAA337F93}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "McpClient", "McpClient\McpClient.csproj", "{185A4F00-F574-5F80-CD98-7F3478D756BB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "McpServer.Test", "McpServer.Test\McpServer.Test.csproj", "{ADC1D306-0E0E-8420-9CF0-E9AE2DF34BFE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{563DFD5B-A767-7468-E790-6C78B7C7847C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{563DFD5B-A767-7468-E790-6C78B7C7847C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{563DFD5B-A767-7468-E790-6C78B7C7847C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{563DFD5B-A767-7468-E790-6C78B7C7847C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A64B7EA8-D0F3-F1DE-6B9C-F614B3677A3B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A64B7EA8-D0F3-F1DE-6B9C-F614B3677A3B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A64B7EA8-D0F3-F1DE-6B9C-F614B3677A3B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A64B7EA8-D0F3-F1DE-6B9C-F614B3677A3B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4F1F5C7D-A8B3-24B4-E694-414EAA337F93}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4F1F5C7D-A8B3-24B4-E694-414EAA337F93}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4F1F5C7D-A8B3-24B4-E694-414EAA337F93}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4F1F5C7D-A8B3-24B4-E694-414EAA337F93}.Release|Any CPU.Build.0 = Release|Any CPU
+		{185A4F00-F574-5F80-CD98-7F3478D756BB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{185A4F00-F574-5F80-CD98-7F3478D756BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{185A4F00-F574-5F80-CD98-7F3478D756BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{185A4F00-F574-5F80-CD98-7F3478D756BB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ADC1D306-0E0E-8420-9CF0-E9AE2DF34BFE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ADC1D306-0E0E-8420-9CF0-E9AE2DF34BFE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ADC1D306-0E0E-8420-9CF0-E9AE2DF34BFE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ADC1D306-0E0E-8420-9CF0-E9AE2DF34BFE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {9CF61214-8CD1-47AF-B785-BA43F856ED60}
+	EndGlobalSection
+EndGlobal

@@ -5,9 +5,12 @@ name: Build binaries for Language MCP dotnet implementation
 # This workflow will build a .NET project
 
 on:
-  pull_request:
+  push:
     branches: [ "main" ]
     paths: ['src/dotnet/mcp/**', '.github/workflows/build-dotnet.yaml']
+
+permissions:
+  contents: write
 
 jobs:
   build:
@@ -50,4 +53,17 @@ jobs:
       with:
         name: mcp-dotnet
         path: ./artifacts
+
+    - name: Zip published output
+      run: zip -r release.zip ./artifacts
+
+    - name: Create GitHub Release
+      uses: softprops/action-gh-release@v2
+      with:
+        tag_name: auto-release-${{ github.run_number }}
+        name: Auto Release ${{ github.run_number }}
+        files: release.zip
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
     
