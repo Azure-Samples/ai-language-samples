@@ -20,8 +20,8 @@
 
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\LanguageMcpServer\LanguageMcpServer.csproj" />
-    <ProjectReference Include="..\..\TranslatorMcpServer\TranslatorMcpServer.csproj" />
+    <ProjectReference Include="..\LanguageMcpServer\LanguageMcpServer.csproj" />
+    <ProjectReference Include="..\TranslatorMcpServer\TranslatorMcpServer.csproj" />
   </ItemGroup>
   
   <ItemGroup>
