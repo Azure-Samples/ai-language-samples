@@ -1,16 +1,43 @@
-# LanguageMcpServer
+# Overview
 
-`LanguageMcpServer` is a .NET 8 project that provides an MCP Server implementation with built-in support to use PII (Personally Identifiable Information) redaction in text and documents and text translation tools.  
+Azure AI Language is a cloud-based service that provides Natural Language Processing (NLP) features for understanding and analyzing text. Azure Text translation is a cloud-based REST API feature of the Translator service that uses neural machine translation technology to enable quick and accurate source-to-target text translation in real time across all supported languages.
+
+In `LanguageAIMcp` solution there are a collection of MCP servers for many Azure.AI.Language and Azure.AI.Translator offerings. This solution contains 2 separate MCP servers
+
+- `LanguageMcpServer` exposing the [Azure AI language](https://learn.microsoft.com/en-us/azure/ai-services/language-service/overview) capabilities as various MCP tools,
+- `TranslatorMcpServer` exposing the [Azure Text translation](https://learn.microsoft.com/en-us/azure/ai-services/translator/text-translation/overview?tabs=windows) capabilities as MCP tools.
+
+This solution also has a test client called `McpClient` which will allow users to test the MCP capabilities directly.
+
+## LanguageMcpServer
+
+`LanguageMcpServer` is a .NET 8 project that provides an MCP Server implementation which expose various Azure.AI.Language capabibilities as MCP tools. To use these tools, the developer will need an [Azure AI Foundry resource](https://learn.microsoft.com/en-us/azure/ai-services/multi-service-resource?pivots=azportal). 
+
+Currecntly the following tools are supported:
+
+- `PiiRedactionTool` - identifies entities in text and documents (PDF and Word) that are associated with individuals and redacts them.
+- `ExtractEntitiesTool` - identifies different entries in text and categorizes them into predefined types.
+- `ExtractHeathcareEntitiesTool` - Extracts and labels relevant health information from text.
+- `ExtractKeyPhraseTool` - evaluates and returns the main concepts in unstructured text, and returns them as a list.
+- `LanguageDetectionTool` - evaluates text and detects a wide range of languages and variant dialects.
+- `SentimentAnalysisTool` - identifies positive or negative sentiments and can link them to specific elements within the text.
+- `SummarizationTool` - condenses information for text and generates a summary.
+- `ConversationalUnderstandingTool` - predicts the overall intention of an incoming utterance and extract important information from it based on custom natural language understanding models. To use this tool, the developer should already have a [Conversation Language Understanding (CLU) project trained and deployed](https://learn.microsoft.com/en-us/azure/ai-services/language-service/conversational-language-understanding/how-to/create-project?tabs=azure-ai-foundry) to their resource.
+- `QuestionAnsweringTool` - identifies the most suitable answer for user inputs. To use this tool, the developer will need to have a [Custom Question Answering (CQA) project created and deployed](https://learn.microsoft.com/en-us/azure/ai-services/language-service/question-answering/how-to/create-test-deploy) to their language resource
+
 This MCP Server uses Standard Input/Output (stdio) transport to communicate with any MCP client.
 
-## Features
+## TranslatorMcpServer
 
-- **PII Redaction**: [Tool to automatically detect and redact sensitive information from text or documents.](https://learn.microsoft.com/en-us/azure/ai-services/language-service/personally-identifiable-information/overview?tabs=text-pii)
-- **Translation**: [Tool to translate text into multiple languages](https://learn.microsoft.com/en-us/azure/ai-services/translator/overview).
+`TranslatorMcpServer` is another .NET 8 project that provides the MCP Server implementation for Azure Text translation.
+
+It supports one tool:
+
+- `TranslationTool`: translates text into multiple languages
 
 ## Getting started
 
-This project supports two main usage paths:
+The MCP servers support two main usage paths:
 
 Use the pre-built binaries – Ideal for users who want to integrate or run the tool without modifying the source.
 Build and develop from source – For contributors or developers who want to customize or extend the functionality.
@@ -34,56 +61,64 @@ You can download the latest binaries from the build artifacts.
 1. Build the `src\dotnet\mcp\LanguageMcp.sln` solution. `dotnet build .\src\dotnet\mcp\`
 1. Test using an MCP client.
 
+### Setting up the LanguageMcpServer
+
 #### Commandline arguments
 
-The MCP Server can accept an optional command-line parameter which instructs which tools are needed. Values:
+The Language MCP Server accepts an optional command-line parameter which instructs which tools are needed. If nothing is specified all tools are run. Currently ths following values are supported for tools:
 
-1. All - for all tools
-1. PiiRedactionTool - for the PII tools
-1. TranslatorTool - for the translator tools
+- `PiiRedactionTool`
+- `ExtractEntitiesTool`
+- `ExtractHeathcareEntitiesTool`
+- `ExtractKeyPhraseTool`
+- `LanguageDetectionTool`
+- `SentimentAnalysisTool`
+- `SummarizationTool`
+- `ConversationalUnderstandingTool`
+- `QuestionAnsweringTool`
 
-### Language MCP Server Configuration Required (Even When Using Binaries)
+### Required `appSettings` updates (Even When Using Binaries)
 
-Even if you're using the pre-built binaries, you must configure the application by updating the `appsettings.json` file.
-
-#### Location
+Even when using the pre-built binaries, the appsettings need to be updated in the `appsettings.json` file.
 
 1. The `appsettings.json` file is located in the Server directory of the binary package.
-1. When using the code, the `appsettings.json` is located in the `src\dotnet\mcp\Server\` folder
+1. When using the code, the `appsettings.json` is located in the individual MCP server folder. For `LanguageMcpServer`, it is in  `src\dotnet\mcp\LanguageMcpServer\`.
 
-#### Required Updates
+#### Required Updates for LanguageMcpServer
 
-Before running the application, make sure to update the following settings:
+Before running the application, make sure to update the following settings in the appSettings.json:
 
 ```json
 {
   "LanguageSettings": {
     "Endpoint": "YourLanguageEndpoint",
-    "ApiKey": "YourLanguageApiKey"
-  },
-  "TranslatorSettings": {
-    "Endpoint": "https://api.cognitive.microsofttranslator.com",
-    "ApiKey": "YourTranslatorApiKey",
-    "Region": "YourTranslatorRegion"
+    "ApiKey": "YourLanguageApiKey",
+    "QuestionAnsweringSettings": { // Optional configuration for configuring the custom Question Answering project.
+      "ProjectName": "Your CQA project name.",
+      "DeploymentName": "Your CQA deployment name."
+    },
+    "CLUSettings": { // Optional configuration for configuring the coversational understanding project.
+      "ProjectName": "Your CLU project name.",
+      "DeploymentName": "Your CLU deployment name"
+    }
   }
 }
 ```
 
 | Parameter Name                         | Description                                                       |
 |----------------------------------------|-------------------------------------------------------------------|
-| `YourLanguageEndpoint`                 | Endpoint for the Azure AI Language / Azure AI Aervices resource to be used for PII detection.  |
-| `YourLanguageApiKey`                   | ApiKey for the Azure AI Language / Azure AI services resource  to be used for PII detection.|
-| `YourTranslatorEndpoint`               | Endpoint for the Azure AI Translator / Azure AI services resource  to be used for Translation.               |
-| `YourTranslatorApiKey`                 | ApiKey for the Translator/ Azure AI service resource to be used for Translation          |
-| `YourTranslatorRegion`                 | Region of the Translator / Azure AI service resource to be used for Translation         |
+| `YourLanguageEndpoint`                 | Endpoint for the Azure AI Language / Azure AI Aervices resource to be used. (Required)  |
+| `YourLanguageApiKey`                   | ApiKey for the Azure AI Language / Azure AI services resource  to be used. (Required)|
+| `QuestionAnsweringSettings.ProjectName` | The Custom Question Answering project name. (Required when using the `QuestionAnsweringTool`)|
+| `QuestionAnsweringSettings.DeploymentName` | The Custom Question Answering deployment name. (Required when using the `QuestionAnsweringTool`)|
+| `CLUSettings.ProjectName`              | The Conversational Language Understanding project name. (Required when using the `ConversationalUnderstandingTool`)|
+| `CLUSettings.DeploymentName`            | The Conversational Language Understanding deployment name.(Required when using the `ConversationalUnderstandingTool`)|
 
-If you only want to perform only one operation, you can update just those settings.
-
-## Testing the Language MCP Server
+#### Testing the LanguageMCPServer
 
 You can test the MCP Server by connecting it to any MCP Client as an stdio transport. The stdio transport enables communication through standard input and output streams.
 
-### Using the binaries
+##### Using the binaries
 
 ```dotnetcli
 
@@ -91,13 +126,54 @@ command: "<path to MCP server binaries>/LanguageMcpServer.exe"
 args: ["All"] // You can use "All" to register all tools or the name of the individual tools you want to test
 
 ```
+### Setting up the TranslatorMcpServer
+
+### Required `appSettings` updates in TranslatorMcpServer (Even When Using Binaries)
+
+Even when using the pre-built binaries, the appsettings need to be updated in the `appsettings.json` file.
+
+1. The `appsettings.json` file is located in the Server directory of the binary package.
+1. When using the code, the `appsettings.json` is located in the individual MCP server folder. For `TranslatorMcpServer`, it is in  `src\dotnet\mcp\TranslatorMcpServer\`.
+
+#### Required Updates for TranslatorMcpServer
+
+Before running the application, make sure to update the following settings in the appSettings.json:
+
+```json
+{
+  "TranslatorSettings": {
+    "Endpoint": "https://api.cognitive.microsofttranslator.com",
+    "ApiKey": "Your translator resource API key.",
+    "Region": "Your translator resource region."
+  }
+}
+```
+
+| Parameter Name                         | Description                                                       |
+|----------------------------------------|-------------------------------------------------------------------|
+| `YourTranslatorEndpoint`               | Endpoint for the Azure AI Translator / Azure AI services resource  to be used for Translation.               |
+| `YourTranslatorApiKey`                 | ApiKey for the Translator/ Azure AI service resource to be used for Translation          |
+| `YourTranslatorRegion`                 | Region of the Translator / Azure AI service resource to be used for Translation         |
+
+#### Testing the TranslatorMCPServer
+
+You can test the MCP Server by connecting it to any MCP Client as an stdio transport. The stdio transport enables communication through standard input and output streams.
+
+##### Using binaries
+
+```dotnetcli
+
+command: "<path to MCP server binaries>/TranslatorMcpServer.exe"
+args: ["All"] // You can use "All" to register all tools or the name of the individual tools you want to test
+
+```
 
 ### Configuring the built-in MCP client
 
-The LanguagMcp solution provides an MCP Console client called `LanguageMcpClient` which can be used to integrate with the McpServer. To test using the provided MCP client, follow these steps:
+The `LanguagAIMcp` solution provides an MCP Console client called `McpClient` which can be used to integrate and tests the McpServers. To test using the provided MCP client, follow these steps:
 
-1. Open the `src/dotnet/mcp/LanguageMcp.sln` in `Visual Studio`.
-1. Navigate to the `LanguageMcpClient` project in the solution and open the `appSettings.json` file.
+1. Open the `src/dotnet/mcp/LanguageAIMcp.sln` in `Visual Studio`.
+1. Navigate to the `McpClient` project in the solution and open the `appSettings.json` file.
 1. Update the required settings as shown below.
 1. Build the project
 1. Run the project from Visual Studio
@@ -112,7 +188,8 @@ The LanguagMcp solution provides an MCP Console client called `LanguageMcpClient
     "ApiKey": "YourAzureOpenAIApiKey",
     "DeploymentName": "NameOfTheDeployment"
   },
-  "Tools": "All" //Allowed Values: All, PiiRedactionTool, TranslatorTool
+  "Tools": "All",
+  "ProjectPath": "Project Path for the Mcp Server" // Path of the MCP Server project
 }
 ```
 
@@ -120,15 +197,17 @@ The LanguagMcp solution provides an MCP Console client called `LanguageMcpClient
 |----------------------------------------|---------------------------------------------------------------------|
 | `YourAzureOpenAIEndpoint`              | Endpoint for the Azure OpenAI Resource or Azure AI Service resource |
 | `YourAzureOpenAIApiKey`                | ApiKey for the Azure OpenAI Resource or Azure AI Service resource.  |
-| `NameOfTheDeployment`                  | Name of the open AI model deployed for the resource (e.g., `gpt-4o`)|
+| `NameOfTheDeployment`                  | Name of the open AI model deployed for the resource (e.g., `gpt-4.1`)|
+| `Tools`                                | Comma Separated list of tools to be tested                          |
+| `ProjectPath`                          | Project Path for the Mcp Server                                     |
 
 ### Using VS Code - MCP Copilot extension
 
 1. Install [nodejs](https://nodejs.org/en/download/)
 1. Launch Visual Studio Code.
 1. Install [MCP copilot extension](https://code.visualstudio.com/docs/copilot/chat/mcp-servers?wt.md_id=AZ-MVP-5004796#_enable-mcp-support-in-vs-code) for VS Code.
-1. Click on the `Add Server` link to add the `LanguageMcpServer`.
-1. Open Copilot chat and switch to "Agent" mode from the drop down. Select the `gpt-4o` model from the models drop down
+1. Click on the `Add Server` link to add the `LanguageMcpServer` or `TranslatorMcpServer`.
+1. Open Copilot chat and switch to "Agent" mode from the drop down. Select the `gpt-4.1` model from the models drop down
 1. Test the tools for PII redaction and Language Translation using natural language.
 
 ```json
@@ -137,6 +216,11 @@ The LanguagMcp solution provides an MCP Console client called `LanguageMcpClient
             "language-mcp-server": {
                 "type": "stdio",
                 "command": "<path to MCP server binaries>/LanguageMcpServer.exe",
+                "args": ["All"],
+            },
+            "translator-mcp-server": {
+                "type": "stdio",
+                "command": "<path to MCP server binaries>/TranslatorMcpServer.exe",
                 "args": ["All"],
             }
         }
