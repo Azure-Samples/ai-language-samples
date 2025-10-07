@@ -29,10 +29,10 @@ jobs:
       run: dotnet restore  src/dotnet/mcp 
     
     - name: Build
-      run: dotnet build --no-restore src/dotnet/mcp --configuration Release
+      run: dotnet build --no-restore src/dotnet/mcp -c Release
     
     - name: Test
-      run: dotnet test src/dotnet/mcp/McpServer.Test/McpServer.Test.csproj -configuration Release --verbosity normal
+      run: dotnet test src/dotnet/mcp/McpServer.Test/McpServer.Test.csproj -c Release --verbosity normal
     
     - name: Publish LanguageMcpServer win-64 server
       run: dotnet publish src/dotnet/mcp/LanguageMcpServer/LanguageMcpServer.csproj -c Release -r win-x64 --self-contained true /p:PublishSingleFile=true --output ./artifacts/Server/LanguageMcpServer/win-x64
@@ -47,7 +47,7 @@ jobs:
       run: dotnet publish src/dotnet/mcp/TranslatorMcpServer/TranslatorMcpServer.csproj -c Release -r linux-x64 --self-contained true /p:PublishSingleFile=true --output ./artifacts/Server/TranslatorMcpServer/linux-x64
 
     - name: Publish client
-      run: dotnet publish src/dotnet/mcp/McpClient/ --configuration Release --output ./artifacts/McpClient
+      run: dotnet publish src/dotnet/mcp/McpClient/ -c Release --output ./artifacts/McpClient
     - name: Upload artifacts
       uses: actions/upload-artifact@v4
       with:
