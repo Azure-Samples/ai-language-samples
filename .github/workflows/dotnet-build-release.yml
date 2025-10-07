@@ -62,7 +62,7 @@ jobs:
       with:
         tag_name: auto-release-${{ github.run_number }}
         name: Auto Release ${{ github.run_number }}
-        files: release.zip
+        files: local-language-mcp-server.zip
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
