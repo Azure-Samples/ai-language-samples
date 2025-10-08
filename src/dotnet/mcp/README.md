@@ -23,7 +23,7 @@ Currecntly the following tools are supported:
 - `SentimentAnalysisTool` - identifies positive or negative sentiments and can link them to specific elements within the text.
 - `SummarizationTool` - condenses information for text and generates a summary.
 - `ConversationalUnderstandingTool` - predicts the overall intention of an incoming utterance and extract important information from it based on custom natural language understanding models. To use this tool, the developer should already have a [Conversation Language Understanding (CLU) project trained and deployed](https://learn.microsoft.com/en-us/azure/ai-services/language-service/conversational-language-understanding/how-to/create-project?tabs=azure-ai-foundry) to their resource.
-- `QuestionAnsweringTool` - identifies the most suitable answer for user inputs. To use this tool, the developer will need to have a [Custom Question Answering (CQA) project created and deployed](https://learn.microsoft.com/en-us/azure/ai-services/language-service/question-answering/how-to/create-test-deploy) to their language resource
+- `QuestionAnsweringTool` - identifies the most suitable answer for user inputs. To use this tool, the developer will need to have a [Custom Question Answering (CQA) project created and deployed](https://learn.microsoft.com/en-us/azure/ai-services/language-service/question-answering/how-to/create-test-deploy) to their language or Azure AI foundry resource
 
 This MCP Server uses Standard Input/Output (stdio) transport to communicate with any MCP client.
 
@@ -47,7 +47,7 @@ Build and develop from source – For contributors or developers who want to cus
 ### Prerequisites  
 
 1. .NET 8 SDK installed on your system.  
-1. Azure AI service resource or separate Language and Translation resources (depending one your use case)
+1. Azure AI Foundry resource or separate Language and Translation resources (depending one your use case)
 1. (Optional) MCP client of choice.
 
 ### Option 1: Use Pre-Built Binaries
@@ -57,7 +57,7 @@ You can download the latest binaries from the build artifacts.
 ### Option 2: Build and develop from source
 
 1. Clone the repository: `git clone https://github.com/Azure-Samples/ai-language-samples.git`. It might be easier to download the whole repository as a zip file and extract.
-1. Update configurations in `appsettings.json` for the language/translation resources
+1. Update configurations in `appsettings.json` for the Azure AI Foundry, Language or Translation resources
 1. Build the `src\dotnet\mcp\LanguageMcp.sln` solution. `dotnet build .\src\dotnet\mcp\`
 1. Test using an MCP client.
 
@@ -107,8 +107,8 @@ Before running the application, make sure to update the following settings in th
 
 | Parameter Name                         | Description                                                       |
 |----------------------------------------|-------------------------------------------------------------------|
-| `YourLanguageEndpoint`                 | Endpoint for the Azure AI Language / Azure AI Aervices resource to be used. (Required)  |
-| `YourLanguageApiKey`                   | ApiKey for the Azure AI Language / Azure AI services resource  to be used. (Required)|
+| `YourLanguageEndpoint`                 | Endpoint for the Azure AI Language / Azure AI Foundry resource to be used. (Required)  |
+| `YourLanguageApiKey`                   | ApiKey for the Azure AI Language / Azure AI Foundry resource  to be used. (Required)|
 | `QuestionAnsweringSettings.ProjectName` | The Custom Question Answering project name. (Required when using the `QuestionAnsweringTool`)|
 | `QuestionAnsweringSettings.DeploymentName` | The Custom Question Answering deployment name. (Required when using the `QuestionAnsweringTool`)|
 | `CLUSettings.ProjectName`              | The Conversational Language Understanding project name. (Required when using the `ConversationalUnderstandingTool`)|
@@ -139,9 +139,9 @@ Before running the application, make sure to update the following settings in th
 
 | Parameter Name                         | Description                                                       |
 |----------------------------------------|-------------------------------------------------------------------|
-| `YourTranslatorEndpoint`               | Endpoint for the Azure AI Translator / Azure AI services resource  to be used for Translation.               |
-| `YourTranslatorApiKey`                 | ApiKey for the Translator/ Azure AI service resource to be used for Translation          |
-| `YourTranslatorRegion`                 | Region of the Translator / Azure AI service resource to be used for Translation         |
+| `YourTranslatorEndpoint`               | Endpoint for the Azure AI Translator / Azure AI Foundry resource  to be used for Translation.               |
+| `YourTranslatorApiKey`                 | ApiKey for the Translator/ Azure AI Foundry resource to be used for Translation          |
+| `YourTranslatorRegion`                 | Region of the Translator / Azure AI Foundry resource to be used for Translation         |
 
 ## Testing / Integrating the MCP Servers
 
@@ -151,10 +151,10 @@ The `LanguagAIMcp` solution provides an MCP Console client called `McpClient` wh
 
 1. Open the `src/dotnet/mcp/LanguageAIMcp.sln` in `Visual Studio`.
 1. Navigate to the `McpClient` project in the solution and open the `appSettings.json` file.
-1. Update the required settings as shown below.
+1. Update the required settings as shown below. Pick the project you want to test - `LanguageMcpServer` or `TranslatorMcpServer`
 1. Build the project
 1. Run the project from Visual Studio
-1. A terminal will be launched. Test the tools for PII redaction and Language Translation using natural language.
+1. A terminal will be launched. Test the tools for Language capabilities and Language Translation using natural language.
 
 ### MCP Client Configuration Required
 
@@ -170,13 +170,13 @@ The `LanguagAIMcp` solution provides an MCP Console client called `McpClient` wh
 }
 ```
 
-| Parameters                             | Description                                                         |
-|----------------------------------------|---------------------------------------------------------------------|
-| `YourAzureOpenAIEndpoint`              | Endpoint for the Azure OpenAI Resource or Azure AI Service resource |
-| `YourAzureOpenAIApiKey`                | ApiKey for the Azure OpenAI Resource or Azure AI Service resource.  |
-| `NameOfTheDeployment`                  | Name of the open AI model deployed for the resource (e.g., `gpt-4.1`)|
-| `Tools`                                | Comma Separated list of tools to be tested                          |
-| `ProjectPath`                          | Project Path for the Mcp Server                                     |
+| Parameters                             | Description                                                                     |
+|----------------------------------------|-------------------------------------------------------------------------------------|
+| `YourAzureOpenAIEndpoint`              | Endpoint for the Azure OpenAI Resource.   |
+| `YourAzureOpenAIApiKey`                | ApiKey for the Azure OpenAI Resource.     |
+| `NameOfTheDeployment`                  | Name of the open AI model deployed for the resource (e.g., `gpt-4.1`) |
+| `Tools`                                | Comma Separated list of tools to be tested |
+| `ProjectPath`                          | Project Path for the Mcp Server            |
 
 ### Using VS Code - MCP Copilot extension
 
